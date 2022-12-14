@@ -101,7 +101,9 @@ class PostViewsTests(TestCase):
         )
         response = self.authorized_client.get(reverse('posts:index'))
         new_post.delete()
-        self.assertIn(bytes(new_post.text, 'utf-8'), response.content)
+        test_string = new_post.text
+        bytes_string = test_string.encode()
+        self.assertIn(bytes_string, response.content)
         cache.clear()
         response = self.authorized_client.get(reverse('posts:index'))
         test_string = 'Тестовый пост new'
