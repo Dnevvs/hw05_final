@@ -123,11 +123,11 @@ class ImaginFormTests(TestCase):
 
     def test_title_label(self):
         title_label = self.form.fields['text'].label
-        self.assertEquals(title_label, 'Текст поста')
+        self.assertEqual(title_label, 'Текст поста')
         title_label = self.form.fields['group'].label
-        self.assertEquals(title_label, 'Группа')
+        self.assertEqual(title_label, 'Группа')
         title_label = self.form.fields['image'].label
-        self.assertEquals(title_label, 'Картинка')
+        self.assertEqual(title_label, 'Картинка')
 
 
 class CommentCreateFormTests(TestCase):
