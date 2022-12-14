@@ -91,25 +91,6 @@ class PostViewsTests(TestCase):
         response = self.authorized_client.get(reverse('posts:index'))
         self.page_test_context(response)
 
-    def test_index_page_cache(self):
-        """Проверка cache для index."""
-        new_post = Post.objects.create(
-            author=self.user,
-            text='Тестовый пост new',
-            group=self.group,
-            image=None
-        )
-        response = self.authorized_client.get(reverse('posts:index'))
-        new_post.delete()
-        test_string = new_post.text
-        bytes_string = test_string.encode()
-        self.assertIn(bytes_string, response.content)
-        cache.clear()
-        response = self.authorized_client.get(reverse('posts:index'))
-        test_string = 'Тестовый пост new'
-        bytes_string = test_string.encode()
-        self.assertNotIn(bytes_string, response.content)
-
     def test_group_list_page_show_correct_context(self):
         """Шаблон group_list сформирован с правильным контекстом."""
         response = self.authorized_client.get(reverse(
@@ -268,3 +249,30 @@ class PaginatorViewsTest(TestCase):
                 self.assertEqual(len(response.context['page_obj']),
                                  self.page_len - my_set.POSTS_AMOUNT)
                 self.page_test_context(response)
+
+
+class CacheTests(TestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cache.clear()
+        cls.user = User.objects.create_user(username='test_user')
+        cls.authorized_client = Client()
+        cls.authorized_client.force_login(cls.user)
+        cls.post = Post.objects.create(
+            author=cls.user,
+            text='Test post',
+            group=None,
+            image=None
+        )
+
+    def test_index_page_cache(self):
+        """Проверка cache для index."""
+        response = self.authorized_client.get(reverse('posts:index'))
+        content = response.content.decode()
+        self.post.delete()
+        self.assertIn(self.post.text, content)
+        cache.clear()
+        response = self.authorized_client.get(reverse('posts:index'))
+        content = response.content.decode()
+        self.assertNotIn(self.post.text, content)
