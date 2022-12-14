@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Технологии{% endblock %}
+{% block content %}
+{% comment %} Колонки с отступом сверху и снизу {% endcomment %}
+<div class="row">
+  <h1>Вот что я умею</h1>
+  {% comment %}
+    Боковой блок со списком технологий 
+    Займет всю ширину блока на мобильном
+    и 25% при размерах экрана ≥768px
+  {% endcomment %}
+  <aside class="col-12 col-md-3">
+    <ul class="list-group list-group-flush">
+      <img src="{% static 'tech1.png' %}" class="d-inline-block align-top" alt="">
+      <li class="list-group-item">
+        Python
+        <img src="{% static 'tech2.png' %}"  >
+      </li>
+      <li class="list-group-item">
+        Django
+        <img src="{% static 'tech3.png' %}"  >
+      </li>
+      <li class="list-group-item">
+        SQL <img src="{% static 'tech4.png' %}"  >
+      </li>
+      <li class="list-group-item">
+        HTML
+        <img src="{% static 'tech6.png' %}"  width="50" height="50"
+        class="d-inline-block align-top" alt="">
+        <img src="{% static 'tech5.png' %}"  >
+      </li>
+    </ul>
+  </aside>
+  {% comment %}
+    Статья  
+    Займет всю ширину блока на мобильном
+    и 75% при размерах экрана ≥768px
+  
+  <article class="col-12 col-md-9">
+    <p>Текст страницы "Технологии"
+       
+       На этой странице можно рассказать, 
+       какие программные инструменты вы применили 
+       для создания этого сайта, какие навыки вам
+       помогли, с чем вы хорошо разобрались, 
+       а с чем — не очень. 
+       
+       Картинки и нестандартные подходы приветствуются: 
+       эта страница может получиться очень интересной.
+    </p>
+  </article>
+  {% endcomment %}
+</div>
+{% endblock %} 
