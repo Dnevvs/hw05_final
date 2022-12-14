@@ -104,7 +104,9 @@ class PostViewsTests(TestCase):
         self.assertIn(bytes(new_post.text, 'utf-8'), response.content)
         cache.clear()
         response = self.authorized_client.get(reverse('posts:index'))
-        self.assertNotIn(bytes('Тестовый пост new', 'utf-8'), response.content)
+        test_string = 'Тестовый пост new'
+        bytes_string = test_string.encode()
+        self.assertNotIn(bytes_string, response.content)
 
     def test_group_list_page_show_correct_context(self):
         """Шаблон group_list сформирован с правильным контекстом."""
